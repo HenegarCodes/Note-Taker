@@ -20,10 +20,18 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, './Develop/public/notes.html'));
 });
 
-
+//sending notes submitted if user accesses the api
 app.get('/api/notes', (req, res) => {
-    res.status(200).json(noteData);
-});
+    fs.readFile(path.join(__dirname, noteData), "utf8", (error,notes) = {
+        if(error) {
+            return console.log(error)
+        }
+        res.status(200).json(notes)
+        })
+    });
+
+    
+
 
 
 
