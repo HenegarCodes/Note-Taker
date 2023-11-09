@@ -1,13 +1,12 @@
 const express = require('express');
 const app = express();
-const fs = require('fs');
 const path = require('path');
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+const api = require('./Develop/public/assets/js/index.js');
 
 
 
-
-app.use(express.static(__dirname + 'public'));
+app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
@@ -20,14 +19,10 @@ app.get('/notes', (req, res) => {
 });
 
 //sending notes submitted if user accesses the api
-app.get('/api/notes', (req, res) => {
-    fs.readFile(path.join(__dirname, './Develop/db/db.json'), "utf8", (error, note) => {
-        if (error) {
-            return console.log(error)
-        }
-        res.status(200).json(note)
-    })
-});
+app.get('*', (req, res) => 
+    fs.readFile(path.join(__dirname, './Develop/db/db.json')
+
+));
 
 
 
