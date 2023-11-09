@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
-const noteData = require('./Develop/db/db.json');
 const path = require('path');
 const PORT = 3000;
 
@@ -12,7 +11,7 @@ app.use(express.static(__dirname + 'public'));
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.get('/', (req, res) =>{
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './Develop/public/index.html'));
 });
 
@@ -22,15 +21,15 @@ app.get('/notes', (req, res) => {
 
 //sending notes submitted if user accesses the api
 app.get('/api/notes', (req, res) => {
-    fs.readFile(path.join(__dirname, noteData), "utf8", (error,note) => {
-        if(error) {
+    fs.readFile(path.join(__dirname, './Develop/db/db.json'), "utf8", (error, note) => {
+        if (error) {
             return console.log(error)
         }
         res.status(200).json(note)
-        })
-    });
+    })
+});
 
-    
+
 
 
 
@@ -40,27 +39,40 @@ app.post('/api/notes', (req, res,) => {
     const newNote = req.body;
     //gets note data from the note data variable file
     //saves new not with personal id that wont repeat
-    fs.readFile(path.join(__dirname, noteData), "utf8", (error,note) => {
-        if(error) {
+    fs.readFile(path.join(__dirname, './Develop/db/db.json'), "utf8", (error, note) => {
+        if (error) {
             return console.log(error)
         }
         note = JSON.paarse(note);
         //will do an i statement for array so it gets assigned to 11 or something random
         if (note.length > 0) {
-            let finalID = not[note.length -1].identifier
-            var identifier = parseInt(finalID)+1}
-            else {
-                var identifier = 69;
-            }
+            let finalID = note[note.length - 1].identifier
+            var identifier = parseInt(finalID) + 1
         }
-    })
+        else {
+            var identifier = 69;
+        }
+        //creates object for current note that user is on
+        let currentNote = {
+            title: newNote.title,
+            text: newNote.text,
+            identifier: identifier
+        }
+        //note just submitted gets added to the notes array with the title, text adn idenmtifier
+        var currentNoteArray = note.concat(currentNote)
+        fs.writeFile(path.join(__dirname, './Develop/db/db.json'), JSON.stringify(currentNoteArray), (error, data) => {
+            if (error) {
+                return error
+            }
+            console.log(currentNoteArray)
+            res.json(currentNoteArray);
+        })
+    });
 
-    //res.send(JSON.stringify(req.body));
-  });
-
+});
 
 
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`)
-  })
+})
