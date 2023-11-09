@@ -22,11 +22,11 @@ app.get('/notes', (req, res) => {
 
 //sending notes submitted if user accesses the api
 app.get('/api/notes', (req, res) => {
-    fs.readFile(path.join(__dirname, noteData), "utf8", (error,notes) = {
+    fs.readFile(path.join(__dirname, noteData), "utf8", (error,note) => {
         if(error) {
             return console.log(error)
         }
-        res.status(200).json(notes)
+        res.status(200).json(note)
         })
     });
 
@@ -34,9 +34,20 @@ app.get('/api/notes', (req, res) => {
 
 
 
+//takes inputted note to the back
+app.post('/api/notes', (req, res,) => {
+    //new note from user input via save
+    const newNote = req.body;
+    //gets note data from the note data variable file
+    //saves new not with personal id that wont repeat
+    fs.readFile(path.join(__dirname, noteData), "utf8", (error,note) => {
+        if(error) {
+            return console.log(error)
+        }
+        note = JSON.paarse(note);
+    })
 
-app.post('/api/notes', function (req, res, ) {
-    res.send(JSON.stringify(req.body));
+    //res.send(JSON.stringify(req.body));
   });
 
 
