@@ -9,6 +9,7 @@ const api = require('./Develop/public/assets/js/index.js');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use('/api', api);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './Develop/public/index.html'));
@@ -27,7 +28,7 @@ app.get('*', (req, res) =>
 
 
 
-
+/*
 //takes inputted note to the back
 app.post('/api/notes', (req, res,) => {
     //new note from user input via save
@@ -66,7 +67,7 @@ app.post('/api/notes', (req, res,) => {
 
 });
 
-
+*/
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`)
