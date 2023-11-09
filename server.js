@@ -45,6 +45,14 @@ app.post('/api/notes', (req, res,) => {
             return console.log(error)
         }
         note = JSON.paarse(note);
+        //will do an i statement for array so it gets assigned to 11 or something random
+        if (note.length > 0) {
+            let finalID = not[note.length -1].identifier
+            var identifier = parseInt(finalID)+1}
+            else {
+                var identifier = 69;
+            }
+        }
     })
 
     //res.send(JSON.stringify(req.body));
